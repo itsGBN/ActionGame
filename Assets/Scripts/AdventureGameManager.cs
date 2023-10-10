@@ -11,6 +11,7 @@ public class AdventureGameManager : MonoBehaviour
     public GameObject text;
     TMP_Text myText;
 
+
     private void Start()
     {
         myText = text.GetComponent<TMP_Text>();
@@ -23,7 +24,6 @@ public class AdventureGameManager : MonoBehaviour
         text.SetActive(true);
         Debug.Log(dialogue);
         myText.text = dialogue;
-        
     }
 
     public void StopConvo()

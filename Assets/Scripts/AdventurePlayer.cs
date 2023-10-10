@@ -4,6 +4,8 @@ using Unity.VisualScripting;
 using UnityEditor.AnimatedValues;
 using UnityEngine;
 using TMPro;
+using UnityEditor.SearchService;
+using UnityEngine.SceneManagement;
 
 public class AdventurePlayer : MonoBehaviour
 {
@@ -12,6 +14,13 @@ public class AdventurePlayer : MonoBehaviour
     Animator myAnim;
     public SpriteRenderer myRenderer;
     public GameObject mySprite;
+    public GameObject myKey;
+    public GameObject myDoor;
+    public bool hasKey = false;
+
+    public AudioSource audioSource2;
+    public AudioClip audioclip2;
+    public AudioClip audioclip3;
 
     //variables
     [SerializeField] float playerSpeed = 0.1f;
@@ -68,5 +77,28 @@ public class AdventurePlayer : MonoBehaviour
 
         if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
             myAnim.Play(myAnim.GetCurrentAnimatorClipInfo(0)[0].clip.name, 0, 0 / (float)4);
+    }
+
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.name == "Key")
+        {
+            hasKey = true;
+            Destroy(myKey);
+            audioSource2.PlayOneShot(audioclip2);
+        }
+
+        if (collision.gameObject.name == "Door" && hasKey)
+        {
+            Destroy(myDoor);
+            audioSource2.PlayOneShot(audioclip3);
+        }
+
+        if (collision.gameObject.name == "Exit")
+        {
+            SceneManager.LoadScene("Main");
+        }
+
     }
 }
